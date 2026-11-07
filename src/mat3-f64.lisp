@@ -306,7 +306,7 @@
   (declare (optimize (speed 3)))
   (get-column-vector! (v3:zero) m index))
 
-(define-ftype get-column-values (matrix (integer 0 2)) (cl:values f64 f64))
+(define-ftype get-column-values (matrix (integer 0 2)) (cl:values f64 f64 f64))
 (declaim (inline get-column-values))
 (defun get-column-values (m index)
   (with-values ((m m))
@@ -333,7 +333,7 @@
   (declare (optimize (speed 3)))
   (get-row-vector! (v3:zero) m index))
 
-(define-ftype get-row-values (matrix (integer 0 2)) (cl:values f64 f64))
+(define-ftype get-row-values (matrix (integer 0 2)) (cl:values f64 f64 f64))
 (declaim (inline get-row-values))
 (defun get-row-values (m index)
   (with-values ((m m))
