@@ -519,8 +519,8 @@
   (declare (optimize (speed 3)))
   (multiple-value-bind (sin cos) (s:sincos angle)
     (with-values ((o out))
-      (setf o00 (cl:* cos sx) o01 (cl:* sin sx) o02 tx
-            o10 (cl:- (cl:* sin sy)) o11 (cl:* cos sy) o12 ty
+      (setf o00 (cl:* cos sx) o01 (cl:- (cl:* sin sy)) o02 tx
+            o10 (cl:* sin sx) o11 (cl:* cos sy) o12 ty
             o20 0d0 o21 0d0 o22 1d0)
       out)))
 
@@ -599,4 +599,4 @@
 (declaim (inline get-angle))
 (defun get-angle (m)
   (with-values ((m m))
-    (cl:- (atan m10 m00))))
+    (atan m10 m00)))

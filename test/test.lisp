@@ -414,7 +414,18 @@
     (is (eq (m3:trs! m 3f0 4f0 0f0 2f0 5f0) m))
     (is (eq (m3d:trs! md 3d0 4d0 0d0 2d0 5d0) md))
     (is (equalp m (m3:trs 3f0 4f0 0f0 2f0 5f0)))
-    (is (equalp md (m3d:trs 3d0 4d0 0d0 2d0 5d0)))))
+    (is (equalp md (m3d:trs 3d0 4d0 0d0 2d0 5d0))))
+  (is (m3:= (m3:trs 0f0 0f0 (/ s:+pi+ 2) 2f0 1f0)
+            (m3:new 0f0 2f0 0f0 -1f0 0f0 0f0 0f0 0f0 1f0)))
+  (is (m3d:= (m3d:trs 0d0 0d0 (/ sd:+pi+ 2) 2d0 1d0)
+             (m3d:new 0d0 2d0 0d0 -1d0 0d0 0d0 0d0 0d0 1d0))))
+
+(test matrix3.trs.clockwise
+  (let ((world (m3:* (m3:trs 0f0 0f0 (/ s:+pi+ 2) 1f0 1f0) (m3:trs 10f0 0f0 0f0 1f0 1f0)))
+        (worldd (m3d:* (m3d:trs 0d0 0d0 (/ sd:+pi+ 2) 1d0 1d0)
+                       (m3d:trs 10d0 0d0 0d0 1d0 1d0))))
+    (is (v2:= (m3:get-translation world) (v2:new 0f0 10f0) :abs-tol 1f-5))
+    (is (v2d:= (m3d:get-translation worldd) (v2d:new 0d0 10d0)))))
 
 (test matrix3.translation
   (let ((m (m3:trs 3f0 4f0 0.5f0 2f0 2f0))
@@ -438,7 +449,11 @@
     (is (eq (m3d:get-scale! vd md) vd))
     (is (equalp vd #(2d0 5d0))))
   (is (v2:= (m3:get-scale (m3:trs 0f0 0f0 0.5f0 3f0 3f0)) (v2:new 3f0 3f0)))
-  (is (v2d:= (m3d:get-scale (m3d:trs 0d0 0d0 0.5d0 3d0 3d0)) (v2d:new 3d0 3d0))))
+  (is (v2d:= (m3d:get-scale (m3d:trs 0d0 0d0 0.5d0 3d0 3d0)) (v2d:new 3d0 3d0)))
+  (is (v2:= (m3:get-scale (m3:trs 0f0 0f0 0.5f0 2f0 5f0)) (v2:new 2f0 5f0)))
+  (is (v2d:= (m3d:get-scale (m3d:trs 0d0 0d0 0.5d0 2d0 5d0)) (v2d:new 2d0 5d0)))
+  (is (v2:= (m3:get-scale (m3:trs 0f0 0f0 (/ s:+pi+ 2) 2f0 1f0)) (v2:new 2f0 1f0)))
+  (is (v2d:= (m3d:get-scale (m3d:trs 0d0 0d0 (/ sd:+pi+ 2) 2d0 1d0)) (v2d:new 2d0 1d0))))
 
 (test matrix3.angle
   (is (= (m3:get-angle (m3:trs 3f0 4f0 0f0 2f0 5f0)) 0f0))
@@ -446,7 +461,9 @@
   (is (s:= (m3:get-angle (m3:trs 0f0 0f0 0.5f0 3f0 3f0)) 0.5f0))
   (is (sd:= (m3d:get-angle (m3d:trs 0d0 0d0 0.5d0 3d0 3d0)) 0.5d0))
   (is (s:= (m3:get-angle (m3:trs 0f0 0f0 (/ s:+pi+ 2) 1f0 1f0)) (/ s:+pi+ 2)))
-  (is (sd:= (m3d:get-angle (m3d:trs 0d0 0d0 (/ sd:+pi+ 2) 1d0 1d0)) (/ sd:+pi+ 2))))
+  (is (sd:= (m3d:get-angle (m3d:trs 0d0 0d0 (/ sd:+pi+ 2) 1d0 1d0)) (/ sd:+pi+ 2)))
+  (is (s:= (m3:get-angle (m3:trs 0f0 0f0 0.5f0 2f0 5f0)) 0.5f0))
+  (is (sd:= (m3d:get-angle (m3d:trs 0d0 0d0 0.5d0 2d0 5d0)) 0.5d0)))
 
 (test matrix3.axis
   (let ((m (m3:trs 3f0 4f0 0f0 2f0 5f0))
