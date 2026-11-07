@@ -84,10 +84,10 @@
   (once-only (m)
     `(symbol-macrolet
          ((,prefix ,m)
-          (,(format-symbol #.*package* "~@:(~{~a~}~)" (list prefix "00")) (aref ,m 0))
-          (,(format-symbol #.*package* "~@:(~{~a~}~)" (list prefix "10")) (aref ,m 1))
-          (,(format-symbol #.*package* "~@:(~{~a~}~)" (list prefix "01")) (aref ,m 2))
-          (,(format-symbol #.*package* "~@:(~{~a~}~)" (list prefix "11")) (aref ,m 3)))
+          (,(format-symbol (symbol-package prefix) "~@:(~{~a~}~)" (list prefix "00")) (aref ,m 0))
+          (,(format-symbol (symbol-package prefix) "~@:(~{~a~}~)" (list prefix "10")) (aref ,m 1))
+          (,(format-symbol (symbol-package prefix) "~@:(~{~a~}~)" (list prefix "01")) (aref ,m 2))
+          (,(format-symbol (symbol-package prefix) "~@:(~{~a~}~)" (list prefix "11")) (aref ,m 3)))
        ,(if rest
             `(with-values ,rest ,@body)
             `(progn ,@body)))))

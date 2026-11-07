@@ -16,6 +16,19 @@
   (is (equal (multiple-value-list (m2:values (a2))) '(1f0 2f0 3f0 4f0)))
   (is (equal (multiple-value-list (m2d:values (a2d))) '(1d0 2d0 3d0 4d0))))
 
+(test matrix2.with-values
+  (let ((m (a2))
+        (md (a2d)))
+    (m2:with-values ((a m) (b (b2)))
+      (is (equal (list a00 a10 a01 a11) '(1f0 2f0 3f0 4f0)))
+      (is (equal (list b00 b10 b01 b11) '(5f0 6f0 7f0 8f0)))
+      (setf a01 9f0))
+    (m2d:with-values ((a md))
+      (is (equal (list a00 a10 a01 a11) '(1d0 2d0 3d0 4d0)))
+      (setf a11 9d0))
+    (is (equalp m #(1f0 2f0 9f0 4f0)))
+    (is (equalp md #(1d0 2d0 3d0 9d0)))))
+
 (test matrix2.=
   (is (m2:= (a2) (a2)))
   (is (m2d:= (a2d) (a2d)))
@@ -175,6 +188,21 @@
 (test matrix3.values
   (is (equal (multiple-value-list (m3:values (a3))) '(1f0 2f0 3f0 4f0 5f0 6f0 7f0 8f0 9f0)))
   (is (equal (multiple-value-list (m3d:values (a3d))) '(1d0 2d0 3d0 4d0 5d0 6d0 7d0 8d0 9d0))))
+
+(test matrix3.with-values
+  (let ((m (a3))
+        (md (a3d)))
+    (m3:with-values ((a m) (b (b3)))
+      (is (equal (list a00 a10 a20 a01 a11 a21 a02 a12 a22)
+                 '(1f0 2f0 3f0 4f0 5f0 6f0 7f0 8f0 9f0)))
+      (is (equal (list b00 b11 b22) '(9f0 5f0 1f0)))
+      (setf a21 10f0))
+    (m3d:with-values ((a md))
+      (is (equal (list a00 a10 a20 a01 a11 a21 a02 a12 a22)
+                 '(1d0 2d0 3d0 4d0 5d0 6d0 7d0 8d0 9d0)))
+      (setf a02 10d0))
+    (is (equalp m #(1f0 2f0 3f0 4f0 5f0 10f0 7f0 8f0 9f0)))
+    (is (equalp md #(1d0 2d0 3d0 4d0 5d0 6d0 10d0 8d0 9d0)))))
 
 (test matrix3.=
   (is (m3:= (a3) (a3)))
